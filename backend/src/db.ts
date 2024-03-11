@@ -41,7 +41,25 @@ const userSchema = new mongoose.Schema<UserDocument>({
 
 })
 
+interface AccountDocument extends Document {
+    userId : mongoose.Types.ObjectId,
+    balance : number
+}
+
+const accountSchema = new mongoose.Schema<AccountDocument>({
+    userId : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'User',
+        required : true
+    },
+    balance : {
+        type : Number,
+        required : true
+    }
+})
+
 // Create a model from the schema
 const User = mongoose.model<UserDocument, UserModel>('User', userSchema);
+const Account = mongoose.model<AccountDocument>('Account', accountSchema)
 
-export { User, UserDocument, UserModel };
+export { User, UserDocument, UserModel, Account, AccountDocument };
