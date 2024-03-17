@@ -21,15 +21,15 @@ const middleware_1 = __importDefault(require("../middleware"));
 const router = express_1.default.Router();
 const signupSchema = zod_1.default.object({
     username: zod_1.default.string().email(),
-    password: zod_1.default.string(),
     firstname: zod_1.default.string(),
-    lastname: zod_1.default.string()
+    lastname: zod_1.default.string(),
+    password: zod_1.default.string().min(3)
 });
 router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //acquiring the body
-    const body = req.body;
+    // const body = req.body;
     //instance variable for zod validation
-    const validationResult = signupSchema.safeParse(body);
+    const validationResult = signupSchema.safeParse(req.body);
     if (!validationResult.success) {
         return res.json({
             message: "Email already taken/ Incorrect input"

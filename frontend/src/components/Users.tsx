@@ -1,61 +1,35 @@
-import  { useEffect, useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { Button, ButtonProps } from "./Button";
+import { useState } from "react";
 
 interface User {
-    _id: string;
     firstName: string;
     lastName: string;
+    _id: number;
 }
 
-
-
-function Users() {
-    const [users, setUsers] = useState<User[]>([]);
-    const [filter, setFilter] = useState<string>("");
-
-    useEffect(() => {
-        axios
-            .get<{ user: User[] }>("http://localhost:3000/api/v1/user/bulk?filter=" + filter)
-            .then(response => {
-                setUsers(response.data.user);
-            });
-    }, [filter]);
+export default function Users  ()  {
+    // Replace with backend call
+    const [users, setUsers] = useState<User[]>([{
+        firstName: "Harkirat",
+        lastName: "Singh",
+        _id: 1
+    }]);
 
     return (
         <>
-            <div className="font-bold mt-6 text-lg">Users</div>
+            <div className="font-bold mt-6 text-lg">
+                Users
+            </div>
             <div className="my-2">
-                <input
-                    onChange={(e) => {
-                        setFilter(e.target.value);
-                    }}
-                    type="text"
-                    placeholder="Search users..."
-                    className="w-full px-2 py-1 border rounded border-slate-200"
-                />
+                <input type="text" placeholder="Search users..." className="w-full px-2 py-1 border rounded border-slate-200"></input>
             </div>
             <div>
-                {users.map(user => (
-                    <User key={user._id} user={user} />
-                ))}
+                {users.map(user => <User key={user._id} user={user} />)}
             </div>
         </>
     );
 }
 
-interface UserProps {
-    user: User;
-}
-
-function User({ user }: UserProps) {
-    const navigate = useNavigate();
-
-    const handleClick: ButtonProps["onClick"] = () => {
-        navigate(`/send?id=${user._id}&name=${user.firstName}`);
-    };
-
+function User({ user }: { user: User }) {
     return (
         <div className="flex justify-between">
             <div className="flex">
@@ -72,10 +46,9 @@ function User({ user }: UserProps) {
             </div>
 
             <div className="flex flex-col justify-center h-full">
-                <Button onClick={handleClick} label={"Send Money"} />
+                {/* <Button label={"Send Money"} /> */}
+                <button className="w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Send Money</button>
             </div>
         </div>
     );
 }
-
-export default Users;

@@ -9,18 +9,18 @@ const router = express.Router()
 
 const signupSchema = z.object({
     username : z.string().email(),
-    password : z.string(),
     firstname : z.string(),
-    lastname : z.string()
+    lastname : z.string(),
+    password : z.string().min(3)
 })
 
 router.post('/signup',async (req : Request,res : Response)=>{
 
     //acquiring the body
-    const body = req.body;
+    // const body = req.body;
 
     //instance variable for zod validation
-    const validationResult = signupSchema.safeParse(body)
+    const validationResult = signupSchema.safeParse(req.body)
     if( !validationResult.success ){
         return res.json({
             message : "Email already taken/ Incorrect input"
