@@ -9,8 +9,6 @@ interface UserDocument extends Document{
     lastname : string
 }
 
-interface UserModel extends Model<UserDocument>{}
-
 const userSchema = new mongoose.Schema<UserDocument>({
     username : {
         type : String,
@@ -25,20 +23,7 @@ const userSchema = new mongoose.Schema<UserDocument>({
         type : String,
         required : true,
         minlength : 6
-    },
-    firstname: {
-        type: String,
-        required: false,
-        trim: true,
-        maxLength: 50
-    },
-    lastname: {
-        type: String,
-        required: false,
-        trim: true,
-        maxLength: 50
     }
-
 })
 
 interface AccountDocument extends Document {
@@ -59,7 +44,7 @@ const accountSchema = new mongoose.Schema<AccountDocument>({
 })
 
 // Create a model from the schema
-const User = mongoose.model<UserDocument, UserModel>('User', userSchema);
+const User = mongoose.model<UserDocument>('User',userSchema)
 const Account = mongoose.model<AccountDocument>('Account', accountSchema)
 
-export { User, UserDocument, UserModel, Account, AccountDocument };
+export { Account, AccountDocument, User, UserDocument };

@@ -129,27 +129,49 @@ router.put('/',authMiddleware,async (req : Request, res : Response)=>{
     })
 })
 
-router.get('/bulk',async(req : Request, res : Response)=>{
-    const filter = req.query.filter || "";
-    const users = await User.find({
-        $or:[{
-            firstname : {
-                "$regex" : filter
-            }
-        },{
-            lastname : {
-                "$regex" : filter
-            }
-        }]
-    })
 
-    res.json({
-        user : users.map(user=>({
-            username : user.username,
-            firstname : user.firstname,
-            lastname : user.lastname,
-            _id : user._id
-        }))
-    })
-})
+interface Users{
+    username : string,
+    firstname : string,
+    lastname : string,
+    _id : string
+}
+
+
+router.get("/bulk", async (req, res) => {
+    const filter = req.query.filter || "";
+    try {
+        // Ensure the filter is not empty to avoid matching all documents
+        if (filter) {
+            const users = await User.find({
+                $or: [
+                    { username: { $regex: filter, $options: "i" } },
+                ]
+            });
+            res.status(200).json({
+                data: users.map((user) => ({
+                    username: user.username,
+                    firstName: user.firstname,
+                    lastName: user.lastname,
+                    _id: user._id
+                })),
+            });
+        } else {
+            // If no filter is provided, return all users
+            const users = await User.find({});
+            res.status(200).json({
+                data: users.map((user) => ({
+                    username: user.username,
+                    firstName: user.firstname,
+                    lastName: user.lastname,
+                    _id: user._id
+                })),
+            });
+        }
+    } catch (e) {
+        console.error(e); // Log the error for debugging purposes
+        res.status(500).send("An error occurred while fetching users.");
+    }
+});
+
 export default router

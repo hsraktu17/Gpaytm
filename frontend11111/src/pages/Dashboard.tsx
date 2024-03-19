@@ -1,3 +1,4 @@
+import ErrorBoundary from "../ErrorBoundry";
 import Appbar from "../components/Appbar";
 import Balance from "../components/Balance";
 import Users from "../components/Users";
@@ -7,7 +8,9 @@ export default function Dashboard (){
         <Appbar/>
         <div className="m-8">
             <Balance value = {"10,000"}/>
+            {/* <ErrorBoundary> */}
             <Users />
+            {/* </ErrorBoundary> */}
         </div>
     </div>
 }
