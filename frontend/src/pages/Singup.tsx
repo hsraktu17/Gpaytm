@@ -19,6 +19,7 @@ const Signup: React.FC = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState(""); 
+    const [validUser, setValidUser] = useState(true)
     const navigate = useNavigate();
 
     const handleSignUp = async () => {
@@ -31,9 +32,16 @@ const Signup: React.FC = () => {
             };
 
             const response = await axios.post<{ token: string }>('http://localhost:3000/api/v1/user/signup', requestData);
+            const tokenn = response.data.token
+            if(tokenn){
+                localStorage.setItem("token","Bearer " + response.data.token);
+                navigate('/dashboard');
+                setValidUser(true)
+            }else{
+                setValidUser(false)
+            }
 
-            localStorage.setItem("token","Bearer" + response.data.token);
-            navigate('/dashboard');
+            
         } catch(error) {
             console.error("Signup error:", error);
             if ((error as AxiosError).response?.status === 400) {
@@ -58,7 +66,7 @@ const Signup: React.FC = () => {
                     <input type="text" placeholder="Email" className="w-full px-2 py-1 border rounded border-slate-200" onChange={e => setUsername(e.target.value)} />
                     <p className="text-sm font-medium text-left py-2">Password</p>
                     <input type="password" placeholder="Password" className="w-full px-2 py-1 border rounded border-slate-200" onChange={e => setPassword(e.target.value)} />
-                    {errorMessage && <p className="text-red-500 py-2">{errorMessage}</p>}
+                    {validUser && <p className="text-red-500 py-2">Failed to sign up. Please try again later.</p>}
                     <div className="pt-4">
                         <Button label={"SignUp"} onClick={handleSignUp} />
                     </div>

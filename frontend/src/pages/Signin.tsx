@@ -11,6 +11,7 @@ export default function Signin(){
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [errorMessage, setErrorMessage] = useState("") 
+    const [validUser, setValidUser] = useState(true)
     const navigate = useNavigate()
 
     const handleSignIn = async () => {
@@ -20,8 +21,14 @@ export default function Signin(){
                 password: password
             })
             const token = response.data.token
-            localStorage.setItem("token","Bearer "+token)
-            navigate('/dashboard')
+            if(token && password.length >= 6){
+                localStorage.setItem("token","Bearer "+token)
+                navigate('/dashboard')
+                setValidUser(true)
+            }else{
+                setValidUser(false)
+            }
+            
         } catch (error) {
             setErrorMessage("Invalid username or password") 
         }
@@ -37,7 +44,7 @@ export default function Signin(){
                     <input type="text" placeholder="Username/EmailId" className="w-full px-2 py-1 border rounded border-slate-200" onChange={e => setUsername(e.target.value)} />
                     <p className="text-sm font-medium text-left py-2">Password</p>
                     <input type="password" placeholder="Password" className="w-full px-2 py-1 border rounded border-slate-200" onChange={e => setPassword(e.target.value)} />
-                    {errorMessage && <p className="text-red-500 py-2">{errorMessage}</p>}
+                    {!validUser && <p className="text-red-500 py-2">Invalid email or password</p>}
                     <div className="pt-4">
                         <Button label={"SignIn"} onClick={handleSignIn} />
                     </div>
