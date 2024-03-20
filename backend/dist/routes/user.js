@@ -152,4 +152,21 @@ router.get("/bulk", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.status(500).send("An error occurred while fetching users.");
     }
 }));
+router.get('/getLogedIN', middleware_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = req.userId;
+        if (!userId) {
+            return res.status(400).json({ message: "User ID not found in request" });
+        }
+        const user = yield db_1.User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.json({ firstname: user.firstname });
+    }
+    catch (error) {
+        console.error("Error fetching logged-in user:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}));
 exports.default = router;

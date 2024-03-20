@@ -18,7 +18,6 @@ const Signup: React.FC = () => {
     const [lastname, setLastname] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState(""); 
     const [validUser, setValidUser] = useState(true)
     const navigate = useNavigate();
 
@@ -45,9 +44,9 @@ const Signup: React.FC = () => {
         } catch(error) {
             console.error("Signup error:", error);
             if ((error as AxiosError).response?.status === 400) {
-                setErrorMessage("Username already exists or invalid. Please choose a different username.");
+                console.error("error found", error)
             } else {
-                setErrorMessage("Failed to sign up. Please try again later.");
+                console.error("error found", error)
             }
         }
     };

@@ -10,7 +10,6 @@ export default function Signin(){
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const [errorMessage, setErrorMessage] = useState("") 
     const [validUser, setValidUser] = useState(true)
     const navigate = useNavigate()
 
@@ -31,7 +30,7 @@ export default function Signin(){
             }
             
         } catch (error) {
-            setErrorMessage("Invalid username or password") 
+            console.error("error found" + error)
         }
     }
 

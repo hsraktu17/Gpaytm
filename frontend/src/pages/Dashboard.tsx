@@ -16,13 +16,13 @@ export default function Dashboard (){
                     throw new Error('JWT token not found in local storage')
                 }
 
-                const response = await axios.get('http://localhost:3000/api/v1/account/balance',{
+                const response = await axios.get(' http://localhost:3000/api/v1/user/getLogedIN',{
                     headers : {
                         Authorization : `Bearer ${token}`
                     }
                 })
 
-                const username = response.data.user
+                const username = response.data.firstname
                 setUsers(username)
 
             }
@@ -60,7 +60,7 @@ export default function Dashboard (){
     return <div>
         <Appbar/>
         <div className="m-8">
-            <h2>Welcome!! {users}</h2>
+            <h2 className="font-bold text-3xl">Welcome!! {users}</h2>
             <Balance value = {balance}/>
             <Users />
         </div>
