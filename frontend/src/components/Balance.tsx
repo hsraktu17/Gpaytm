@@ -1,5 +1,5 @@
 interface propType{
-    value : string
+    value : number
 }
 
 function Balance({value} : propType){

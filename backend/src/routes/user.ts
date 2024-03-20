@@ -9,9 +9,10 @@ const router = express.Router()
 
 const signupSchema = z.object({
     username : z.string().email(),
+    password : z.string().min(3),
     firstname : z.string(),
     lastname : z.string(),
-    password : z.string().min(3)
+    
 })
 
 router.post('/signup',async (req : Request,res : Response)=>{
@@ -44,8 +45,8 @@ router.post('/signup',async (req : Request,res : Response)=>{
     const user = await User.create({
         username : req.body.username,
         password : req.body.password,
-        firstname : req.body.firstName,
-        lastname : req.body.lastName
+        firstname : req.body.firstname,
+        lastname : req.body.lastname
     })
 
     const userId = user._id;
@@ -138,18 +139,19 @@ interface Users{
 }
 
 
-router.get("/bulk", async (req, res) => {
+router.get("/bulk",async (req, res) => {
     const filter = req.query.filter || "";
     try {
         // Ensure the filter is not empty to avoid matching all documents
         if (filter) {
             const users = await User.find({
                 $or: [
-                    { username: { $regex: filter, $options: "i" } },
+                    { firstname: { $regex: filter, $options: "i" } },
+                    { lastname: { $regex: filter, $options: "i" } }
                 ]
             });
             res.status(200).json({
-                data: users.map((user) => ({
+                user: users.map((user) => ({
                     username: user.username,
                     firstName: user.firstname,
                     lastName: user.lastname,
@@ -160,7 +162,7 @@ router.get("/bulk", async (req, res) => {
             // If no filter is provided, return all users
             const users = await User.find({});
             res.status(200).json({
-                data: users.map((user) => ({
+                user: users.map((user) => ({
                     username: user.username,
                     firstName: user.firstname,
                     lastName: user.lastname,

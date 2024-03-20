@@ -20,6 +20,18 @@ const userSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
         minlength: 6
+    },
+    firstname: {
+        type: String,
+        required: true,
+        trim: true,
+        maxLength: 50
+    },
+    lastname: {
+        type: String,
+        required: true,
+        trim: true,
+        maxLength: 50
     }
 });
 const accountSchema = new mongoose_1.default.Schema({

@@ -22,7 +22,8 @@ export default function Signin(){
             })
             const token = response.data.token
             if(token && password.length >= 6){
-                localStorage.setItem("token","Bearer "+token)
+                localStorage.setItem("token", response.data.token)
+                console.log(token)
                 navigate('/dashboard')
                 setValidUser(true)
             }else{

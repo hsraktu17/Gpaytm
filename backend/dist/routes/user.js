@@ -21,9 +21,9 @@ const middleware_1 = __importDefault(require("../middleware"));
 const router = express_1.default.Router();
 const signupSchema = zod_1.default.object({
     username: zod_1.default.string().email(),
+    password: zod_1.default.string().min(3),
     firstname: zod_1.default.string(),
     lastname: zod_1.default.string(),
-    password: zod_1.default.string().min(3)
 });
 router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //acquiring the body
@@ -48,8 +48,8 @@ router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function*
     const user = yield db_1.User.create({
         username: req.body.username,
         password: req.body.password,
-        firstname: req.body.firstName,
-        lastname: req.body.lastName
+        firstname: req.body.firstname,
+        lastname: req.body.lastname
     });
     const userId = user._id;
     yield db_1.Account.create({
@@ -121,11 +121,12 @@ router.get("/bulk", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         if (filter) {
             const users = yield db_1.User.find({
                 $or: [
-                    { username: { $regex: filter, $options: "i" } },
+                    { firstname: { $regex: filter, $options: "i" } },
+                    { lastname: { $regex: filter, $options: "i" } }
                 ]
             });
             res.status(200).json({
-                data: users.map((user) => ({
+                user: users.map((user) => ({
                     username: user.username,
                     firstName: user.firstname,
                     lastName: user.lastname,
@@ -137,7 +138,7 @@ router.get("/bulk", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             // If no filter is provided, return all users
             const users = yield db_1.User.find({});
             res.status(200).json({
-                data: users.map((user) => ({
+                user: users.map((user) => ({
                     username: user.username,
                     firstName: user.firstname,
                     lastName: user.lastname,

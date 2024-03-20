@@ -34,7 +34,7 @@ const Signup: React.FC = () => {
             const response = await axios.post<{ token: string }>('http://localhost:3000/api/v1/user/signup', requestData);
             const tokenn = response.data.token
             if(tokenn){
-                localStorage.setItem("token","Bearer " + response.data.token);
+                localStorage.setItem("token", response.data.token);
                 navigate('/dashboard');
                 setValidUser(true)
             }else{

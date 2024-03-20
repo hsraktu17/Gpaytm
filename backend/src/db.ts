@@ -23,6 +23,18 @@ const userSchema = new mongoose.Schema<UserDocument>({
         type : String,
         required : true,
         minlength : 6
+    },
+    firstname: {
+        type: String,
+        required: true,
+        trim: true,
+        maxLength: 50
+    },
+    lastname: {
+        type: String,
+        required: true,
+        trim: true,
+        maxLength: 50
     }
 })
 
