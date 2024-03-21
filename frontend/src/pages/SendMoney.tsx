@@ -10,7 +10,7 @@ const SendMoney = () => {
     const [amount, setAmount] = useState<number>(0);
 
     const handleTransfer = () => {
-        axios.post("http://localhost:3000/api/v1/account/transfer", {
+        axios.post("https://gpaytm-1.onrender.com//api/v1/account/transfer", {
             to: id,
             amount
         }, {

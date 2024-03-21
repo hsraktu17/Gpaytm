@@ -16,7 +16,7 @@ export default function Dashboard (){
                     throw new Error('JWT token not found in local storage')
                 }
 
-                const response = await axios.get(' http://localhost:3000/api/v1/user/getLogedIN',{
+                const response = await axios.get(' https://gpaytm-1.onrender.com/api/v1/user/getLogedIN',{
                     headers : {
                         Authorization : `Bearer ${token}`
                     }
@@ -38,7 +38,7 @@ export default function Dashboard (){
                 if(!token){
                     throw new Error("JWT token not found in local storage");
                 }
-                const response = await axios.get(' http://localhost:3000/api/v1/account/balance',{
+                const response = await axios.get(' https://gpaytm-1.onrender.com/api/v1/account/balance',{
                     headers : {
                         Authorization : `Bearer ${token}`
                     }
