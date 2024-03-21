@@ -2,9 +2,8 @@ import { useSearchParams } from 'react-router-dom';
 import axios from "axios";
 import { useState } from 'react';
 
-interface Props {}
 
-const SendMoney = (props: Props) => {
+const SendMoney = () => {
     const [searchParams] = useSearchParams();
     const id = searchParams.get("id");
     const name = searchParams.get("name");
@@ -20,8 +19,10 @@ const SendMoney = (props: Props) => {
             }
         }).then(response => {
             // Handle response if needed
+            response
         }).catch(error => {
             // Handle error if needed
+            console.log(error)
         });
     };
 
