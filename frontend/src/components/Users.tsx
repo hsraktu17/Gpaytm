@@ -16,7 +16,7 @@ export default function Users() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const url = `http://localhost:3000/api/v1/user/bulk?filter=${filter}`;
+                const url = `https://gpaytm-1.onrender.com/api/v1/user/bulk?filter=${filter}`;
                 const response = await axios.get(url);
                 console.log(response.data)
                 setUsers(response.data.user);
